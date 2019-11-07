@@ -10,9 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Logging;
 
 namespace Microsoft.AspNet.OData.Routing
 {
@@ -27,15 +25,10 @@ namespace Microsoft.AspNet.OData.Routing
         /// <summary>
         /// Initializes a new instance of the <see cref="ODataActionSelector" /> class.
         /// </summary>
-        /// <param name="actionDescriptorCollectionProvider">IActionDescriptorCollectionProvider instance from dependency injection.</param>
-        /// <param name="actionConstraintProviders">ActionConstraintCache instance from dependency injection.</param>
-        /// <param name="loggerFactory">ILoggerFactory instance from dependency injection.</param>
-        public ODataActionSelector(
-            IActionDescriptorCollectionProvider actionDescriptorCollectionProvider,
-            ActionConstraintCache actionConstraintProviders,
-            ILoggerFactory loggerFactory)
+        /// <param name="innerSelector">The inner action selector.</param>
+        public ODataActionSelector(IActionSelector innerSelector)
         {
-            _innerSelector = new ActionSelector(actionDescriptorCollectionProvider, actionConstraintProviders, loggerFactory);
+            _innerSelector = innerSelector;
         }
 
         /// <inheritdoc />

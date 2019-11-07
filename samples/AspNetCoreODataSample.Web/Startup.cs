@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AspNetCoreODataSample.Web.Models;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace AspNetCoreODataSample.Web
 {
@@ -25,16 +27,27 @@ namespace AspNetCoreODataSample.Web
         {
             services.AddDbContext<MovieContext>(opt => opt.UseInMemoryDatabase("MovieList"));
             services.AddOData();
-            services.AddMvc();
+            services.AddMvc(options => options.EnableEndpointRouting = false);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.Use(next => context =>
+            {
+                var body = context.Features.Get<IHttpBodyControlFeature>();
+                if (body != null)
+                {
+                    body.AllowSynchronousIO = true;
+                }
+
+                return next(context);
+            });
 
             var model = EdmModelBuilder.GetEdmModel();
 
