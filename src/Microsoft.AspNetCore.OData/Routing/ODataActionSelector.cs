@@ -10,9 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Logging;
 
 namespace Microsoft.AspNet.OData.Routing
 {
@@ -22,21 +20,21 @@ namespace Microsoft.AspNet.OData.Routing
     /// </summary>
     public class ODataActionSelector : IActionSelector
     {
-        private readonly IActionSelector _innerSelector;
+        private readonly IActionSelector _innerSelector = null;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ODataActionSelector" /> class.
-        /// </summary>
-        /// <param name="actionDescriptorCollectionProvider">IActionDescriptorCollectionProvider instance from dependency injection.</param>
-        /// <param name="actionConstraintProviders">ActionConstraintCache instance from dependency injection.</param>
-        /// <param name="loggerFactory">ILoggerFactory instance from dependency injection.</param>
-        public ODataActionSelector(
-            IActionDescriptorCollectionProvider actionDescriptorCollectionProvider,
-            ActionConstraintCache actionConstraintProviders,
-            ILoggerFactory loggerFactory)
-        {
-            _innerSelector = new ActionSelector(actionDescriptorCollectionProvider, actionConstraintProviders, loggerFactory);
-        }
+        ///// <summary>
+        ///// Initializes a new instance of the <see cref="ODataActionSelector" /> class.
+        ///// </summary>
+        ///// <param name="actionDescriptorCollectionProvider">IActionDescriptorCollectionProvider instance from dependency injection.</param>
+        ///// <param name="actionConstraintProviders">ActionConstraintCache instance from dependency injection.</param>
+        ///// <param name="loggerFactory">ILoggerFactory instance from dependency injection.</param>
+        //public ODataActionSelector(
+        //    IActionDescriptorCollectionProvider actionDescriptorCollectionProvider,
+        //    ActionConstraintCache actionConstraintProviders,
+        //    ILoggerFactory loggerFactory)
+        //{
+        //    _innerSelector = new ActionSelector(actionDescriptorCollectionProvider, actionConstraintProviders, loggerFactory);
+        //}
 
         /// <inheritdoc />
         public IReadOnlyList<ActionDescriptor> SelectCandidates(RouteContext context)

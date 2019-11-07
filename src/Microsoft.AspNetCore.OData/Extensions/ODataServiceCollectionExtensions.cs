@@ -10,6 +10,8 @@ using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNet.OData.Routing;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -35,6 +37,10 @@ namespace Microsoft.AspNet.OData.Extensions
             // Setup per-route dependency injection. When routes are added, additional
             // per-route classes will be injected, such as IEdmModel and IODataRoutingConventions.
             services.AddSingleton<IPerRouteContainer, PerRouteContainer>();
+
+            // Used to dynamically process OData's routes. 
+            services.AddSingleton<ODataDynamicRouteValueTransformer>();
+            services.AddSingleton<MatcherPolicy, ODataOverloadingMatcherPolicy>();
 
             // Add OData and query options. Opting not to use IConfigurationOptions in favor of
             // fluent extensions APIs to IRouteBuilder.

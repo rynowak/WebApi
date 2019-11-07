@@ -39,6 +39,32 @@ namespace Microsoft.AspNet.OData.Routing.Conventions
         }
 
         /// <summary>
+        /// Creates a mutable list of the default OData routing conventions with attribute routing enabled.
+        /// </summary>
+        /// <param name="routeName">The name of the route.</param>
+        /// <param name="builder">The <see cref="IRouteBuilder"/> to add the route to.</param>
+        /// <returns>A mutable list of the default OData routing conventions.</returns>
+        public static IList<IODataRoutingConvention> CreateDefaultWithAttributeRouting(
+            string routeName,
+            IEndpointRouteBuilder builder)
+        {
+            if (builder == null)
+            {
+                throw Error.ArgumentNull("builder");
+            }
+
+            if (routeName == null)
+            {
+                throw Error.ArgumentNull("routeName");
+            }
+
+            IList<IODataRoutingConvention> routingConventions = CreateDefault();
+            AttributeRoutingConvention routingConvention = new AttributeRoutingConvention(routeName, builder.ServiceProvider);
+            routingConventions.Insert(0, routingConvention);
+            return routingConventions;
+        }
+
+        /// <summary>
         /// Creates a mutable list of the default OData routing conventions.
         /// </summary>
         /// <returns>A mutable list of the default OData routing conventions.</returns>
